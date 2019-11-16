@@ -18,12 +18,13 @@ status = STdevice.status()
 
 # Test the following commands
 STdevice.pause()
-STdevice.play()
-STdevice.next_track()
-STdevice.previous_track()
-STdevice.set_volume(device.volume() + 10)
-STdevice.set_volume(device.volume() - 10)
-
+#STdevice.play()
+#STdevice.next_track()
+#STdevice.previous_track()
+#STdevice.set_volume(device.volume() + 10)
+#STdevice.set_volume(device.volume() - 10)
+#device.play_media(Source.SPOTIFY, 'spotify:track:5J59VOgvclrhLDYUoH5OaW', 'moyoonthego')
+#device.play_url('https://www.youtube.com/watch?v=886A2ErYpQk')
 
 if __name__ == '__main__':
     pass
