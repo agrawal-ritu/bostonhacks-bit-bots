@@ -6,12 +6,14 @@ BACK = "back"
 SAD = "sad"
 HAPPY = "happy"
 MAD = "mad"
+SURPRISED = "surprised"
 
+from flask import Flask
+from flask import jsonify
 from libsoundtouch import discover_devices
 from libsoundtouch import soundtouch_device
 from libsoundtouch.utils import Source, Type
 
-devices = discover_devices(timeout=2)
 STdevice = soundtouch_device('192.168.1.14')
 STdevice.power_on()
 
@@ -19,33 +21,28 @@ STdevice.power_on()
 # device.status() will do an HTTP request. Try to cache this value if needed.
 status = STdevice.status()
 
-# Test the following commands
-STdevice.pause()
-#STdevice.play()
-#STdevice.next_track()
-#STdevice.previous_track()
-#STdevice.set_volume(device.volume() + 10)
-#STdevice.set_volume(device.volume() - 10)
-#device.play_media(Source.SPOTIFY, 'spotify:track:5J59VOgvclrhLDYUoH5OaW', 'moyoonthego')
-#device.play_url('https://www.youtube.com/watch?v=886A2ErYpQk')
-
 def button_response(input_val):
-    if (input_val == HAPPY):
-        device.play_media(Source.SPOTIFY, 'spotify:track:5J59VOgvclrhLDYUoH5OaW', 'moyoonthego')
-    elif (input_val == SAD):
-        device.play_url('https://www.youtube.com/watch?v=886A2ErYpQk')
-    elif (input_val == MAD):
-        device.play_url('https://www.youtube.com/watch?v=886A2ErYpQk')
-    elif (input_val == BACK):
-        STdevice.previous_track()
-    elif (input_val == NEXT):
-        STdevice.next_track()
-    elif (input_val == PLAY):
-        STdevice.play()
-    elif (input_val == PAUSE):
-        STdevice.pause()
+    try:
+        if (input_val == HAPPY):
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:60nZcImufyMA1MKQY3dcCH', '31dlcuwpfbvet7ykhvmsdjytuhou')
+        elif (input_val == SAD):
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', '31dlcuwpfbvet7ykhvmsdjytuhou')
+        elif (input_val == MAD):
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', '31dlcuwpfbvet7ykhvmsdjytuhou')
+        elif (input_val == SURPRISED):
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', '31dlcuwpfbvet7ykhvmsdjytuhou')
+        elif (input_val == BACK):
+            STdevice.previous_track()
+        elif (input_val == NEXT):
+            STdevice.next_track()
+        elif (input_val == PLAY):
+            STdevice.play()
+        elif (input_val == PAUSE):
+            STdevice.pause()
+        else:
+            return jsonify({"status":"404", "message":"Desired action could not be found"})
+        return jsonify({"status":"200", "message":"Desired action recieved"})
+    except:
+        return jsonify({"status":"400", "message":"The desired action could not be done (operation error)"})
 
-
-if __name__ == '__main__':
-    pass
-
+button_response(MAD)
