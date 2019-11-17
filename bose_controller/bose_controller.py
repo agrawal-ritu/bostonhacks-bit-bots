@@ -25,11 +25,11 @@ def button_response(input_val):
         if (input_val == HAPPY):
             STdevice.play_media(Source.SPOTIFY, 'spotify:track:60nZcImufyMA1MKQY3dcCH', '31dlcuwpfbvet7ykhvmsdjytuhou')
         elif (input_val == SAD):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:5y788ya4NvwhBznoDIcXwK', '31dlcuwpfbvet7ykhvmsdjytuhou')
         elif (input_val == MAD):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:3Q8HNCQq4NU8dd7qBv6m13', '31dlcuwpfbvet7ykhvmsdjytuhou')
         elif (input_val == SURPRISED):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', '31dlcuwpfbvet7ykhvmsdjytuhou')
         elif (input_val == BACK):
             STdevice.previous_track()
         elif (input_val == NEXT):
@@ -43,5 +43,3 @@ def button_response(input_val):
         return json.dumps({"status":"200", "message":"Desired action recieved"})
     except:
         return json.dumps({"status":"400", "message":"The desired action could not be done (operation error)"})
-
-button_response(MAD)
