@@ -25,7 +25,7 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['POST'])
-@cross_origin()
+#@cross_origin()
 def hello():
     
     print('Decoding base64 string and storing it to local file')
@@ -63,12 +63,25 @@ def hello():
     strongest_emotion = max(pairs)[1]
     if not (max(pairs)[0] < 3):
         print("Chosen emotion: " + strongest_emotion)
-        return "Chosen emotion: " + strongest_emotion
+        return '{"message": "Chosen emotion: ' + strongest_emotion + '"}' 
         button_response(strongest_emotion)
     else:
         print("No emotion chosen!")
-        return "No emotion chosen!"
-    
+        return '{"message": "No emotion chosen!"}'
+
+@app.after_request
+def add_cors_headers(response):
+    r = request.referrer[:-1]
+    white = ['http://localhost:3000']
+    if r in white:
+        response.headers.add('Access-Control-Allow-Origin', r)
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+        response.headers.add('Access-Control-Allow-Headers', 'Cache-Control')
+        response.headers.add('Access-Control-Allow-Headers', 'X-Requested-With')
+        response.headers.add('Access-Control-Allow-Headers', 'Authorization')
+        response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+    return response
 
 def button_response(input_val):
     try:

@@ -31,18 +31,19 @@ const GRADIENT_COLORS = [
   "to right, #1CB5E0, #8e44ad"
 ];
 
-var floater = {
-  bottom: "10vh",
-  fontWeight: "bold",
+var button_style = {
+  alignSelf: 'center',
+  fontWeight: "bolder",
   borderRadius: "1vw",
   backgroundColor: "#2f416d",
   borderColor: "#FFFFFF",
-  position: "fixed",
   height:"8vh",
   width:"20vh",
-  color:"white" ,
+  color:"white",
   zIndex: "1"
 };
+
+var message = 'N/A'
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -58,28 +59,30 @@ export default class Home extends React.Component {
     // put posts heres
     const imageSrc = this.webcam.getScreenshot();
     var imagestr = imageSrc.replace("data:image/jpeg;base64,", "");
-    console.log(imagestr);
     // fetch post
     const response = fetch('http://localhost:5000', {
       method: 'POST',
       headers: {
-        'Access-Control-Allow-Origin': '*',
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         image: imagestr,
       })
+    }).then((response) => response.json())
+    .then((response) => {
+      message = response['message']
+      console.log(message)
+      this.forceUpdate();
     });
-    console.log(response);
-	};
+  };
 	
-    
     render() {
       return (
-		        <div style={{ display: "flex", justifyContent: "center"}}>
-                <Webcam audio={false} height={550} screenshotFormat="image/jpeg" width={550} videoConstraints={videoConstraints} ref={this.setRef}/>
-                <Button style={floater} onClick={this.startMusic}>
+		        <div style={{ display: "flex", flexDirection:'column',justifyContent: "center"}}>
+                <Webcam audio={false} screenshotFormat="image/jpeg" width='70%' videoConstraints={videoConstraints} ref={this.setRef} style={{alignSelf:"center"}}/>
+                <div style={{justifyContent: "center", textAlign:"center"}}>Status: {message}</div>
+                <Button style={button_style} onClick={this.startMusic}>
                   Track Mood
                 </Button>
             </div>
