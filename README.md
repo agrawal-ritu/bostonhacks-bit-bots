@@ -6,7 +6,7 @@ Submission for the 2019 BostonHacks for the Bit Bots Team
 
 ## Setup Python Environment
 
-1. `pip install libsoundtouch`
+1. `pip install libsoundtouch flask`
 
 
 ## Setup Bose API Stuff
