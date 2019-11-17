@@ -42,19 +42,21 @@ def hello():
 
     likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
     print(faces)
-    # print('Faces:')
-    # for face in faces:
-    #     print('anger: {}'.format(likelihood_name[face.anger_likelihood]))
-    #     print('joy: {}'.format(likelihood_name[face.joy_likelihood]))
-    #     print('surprise: {}'.format(likelihood_name[face.surprise_likelihood]))
+    # face = faces[0]
 
-    #     vertices = (['({},{})'.format(vertex.x, vertex.y)
-    #                 for vertex in face.bounding_poly.vertices])
+    # #     print('face bounds: {}'.format(','.join(vertices)))
+    # vals = [face.joy_likelihood, face.sorrow_likelihood, face.surprise_likelihood, face.anger_likelihood]
+    # fin = [[vals[0], HAPPY], [vals[1], SAD], [vals[2], SURPRISED], [vals[3], MAD]]
+    # # dict_expr = {"HAPPY" : }
+    # #print(face.anger_likelihood)
 
-    #     print('face bounds: {}'.format(','.join(vertices)))
-    button_response(HAPPY)
+    # v = max(fin)[1]
+    # if(max(fin)[0]<3):
+    #     v = PLAY
+    # return v
+    # button_response()
+    button_response(MAD)
     return "Success!"
-
 
 def button_response(input_val):
     try:
