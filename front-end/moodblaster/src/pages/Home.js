@@ -13,22 +13,16 @@ const videoConstraints = {
 };
 
 const GRADIENT_COLORS = [
-  "to right, #00F260, #0575E6",
-  "to right top, #ff5e62, #36D1DC",
-  "to right, #7a0f35, #800096",
-  "to left bottom, #EB5757, #000042",
-  "to right, #F2994A, #F2C94C",
-  "to left, #36D1DC, #5B86E5",
-  "to right bottom, #30E8BF, #FF8235",
-  "to right, #8e44ad, #c0392b",
-  "to right top, #000046, #1CB5E0",
-  "to right bottom, #1CB5E0, #CB356B",
-  "to left bottom, #CB356B, #ff9966",
-  "to left, #5B86E5, #F2C94C",
-  "to left top, #F2C94C, #00F260",
-  "to right top, #000046, #0575E6",
-  "to right top, #000046, #1CB5E0",
-  "to right, #1CB5E0, #8e44ad"
+  "linear-gradient(90deg, rgba(68,9,126,1) 0%, rgba(195,115,2,1) 100%)",
+  "linear-gradient(90deg, rgba(126,9,9,1) 0%, rgba(116,195,2,1) 100%)",
+  "linear-gradient(90deg, rgba(126,9,9,1) 0%, rgba(195,2,191,1) 100%)",
+  "linear-gradient(90deg, rgba(2,42,20,1) 0%, rgba(48,195,2,1) 100%)",
+  "linear-gradient(90deg, rgba(119,153,236,1) 0%, rgba(10,60,255,1) 100%)",
+  "linear-gradient(90deg, rgba(4,35,112,1) 0%, rgba(120,10,255,1) 100%)",
+  "linear-gradient(90deg, rgba(78,4,112,1) 0%, rgba(240,10,255,1) 100%)",
+  "linear-gradient(90deg, rgba(255,105,184,1) 0%, rgba(255,10,10,1) 100%)",
+  "linear-gradient(90deg, rgba(252,255,105,1) 0%, rgba(185,144,5,1) 100%)",
+  "linear-gradient(90deg, rgba(0,255,145,1) 0%, rgba(200,255,172,1) 100%)"
 ];
 
 var floater = {
@@ -55,6 +49,8 @@ export default class Home extends React.Component {
     };
 	
 	startMusic = () => {
+    document.body.style.background = GRADIENT_COLORS[Math.floor(Math.random() * GRADIENT_COLORS.length)];
+    document.body.style.transition =  "background 5.5s ease-out";
     // put posts heres
     const imageSrc = this.webcam.getScreenshot();
     var imagestr = imageSrc.replace("data:image/jpeg;base64,", "");
