@@ -8,8 +8,7 @@ HAPPY = "happy"
 MAD = "mad"
 SURPRISED = "surprised"
 
-from flask import Flask
-from flask import jsonify
+import json
 from libsoundtouch import discover_devices
 from libsoundtouch import soundtouch_device
 from libsoundtouch.utils import Source, Type
@@ -40,9 +39,9 @@ def button_response(input_val):
         elif (input_val == PAUSE):
             STdevice.pause()
         else:
-            return jsonify({"status":"404", "message":"Desired action could not be found"})
-        return jsonify({"status":"200", "message":"Desired action recieved"})
+            return json.dumps({"status":"404", "message":"Desired action could not be found"})
+        return json.dumps({"status":"200", "message":"Desired action recieved"})
     except:
-        return jsonify({"status":"400", "message":"The desired action could not be done (operation error)"})
+        return json.dumps({"status":"400", "message":"The desired action could not be done (operation error)"})
 
 button_response(MAD)
