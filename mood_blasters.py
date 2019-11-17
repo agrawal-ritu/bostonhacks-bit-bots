@@ -1,4 +1,8 @@
-import os, base64, json, io, google.cloud
+import os
+import base64
+import json
+import io
+import google.cloud
 from flask import Flask, request
 from libsoundtouch import discover_devices
 from libsoundtouch import soundtouch_device
@@ -16,7 +20,6 @@ SAD = "sad"
 HAPPY = "happy"
 MAD = "mad"
 SURPRISED = "surprised"
-
 app = Flask(__name__)
 
 
@@ -33,41 +36,44 @@ def hello():
     client = vision.ImageAnnotatorClient()
 
     with io.open(filename, 'rb') as image_file:
-            content = image_file.read()
+        content = image_file.read()
 
     image = vision.types.Image(content=content)
 
     response = client.face_detection(image=image)
     faces = response.face_annotations
 
-    likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
+    likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY',
+                       'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
     print(faces)
-    # face = faces[0]
+    face = faces[0]
 
-    # #     print('face bounds: {}'.format(','.join(vertices)))
-    # vals = [face.joy_likelihood, face.sorrow_likelihood, face.surprise_likelihood, face.anger_likelihood]
-    # fin = [[vals[0], HAPPY], [vals[1], SAD], [vals[2], SURPRISED], [vals[3], MAD]]
-    # # dict_expr = {"HAPPY" : }
-    # #print(face.anger_likelihood)
+    vals = [face.joy_likelihood, face.sorrow_likelihood,
+            face.surprise_likelihood, face.anger_likelihood]
+    pairs = [[vals[0], HAPPY], [vals[1], SAD],
+             [vals[2], SURPRISED], [vals[3], MAD]]
 
-    # v = max(fin)[1]
-    # if(max(fin)[0]<3):
-    #     v = PLAY
-    # return v
-    # button_response()
-    button_response(MAD)
-    return "Success!"
+    command = max(pairs)[1]
+    if(max(pairs)[0] < 3):
+        command = PLAY
+    button_response(command)
+    return "Success!!"
+
 
 def button_response(input_val):
     try:
         if (input_val == HAPPY):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:60nZcImufyMA1MKQY3dcCH', os.environ['SPOTIFY_API_KEY'])
+            STdevice.play_media(
+                Source.SPOTIFY, 'spotify:track:60nZcImufyMA1MKQY3dcCH', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == SAD):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', os.environ['SPOTIFY_API_KEY'])
+            STdevice.play_media(
+                Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == MAD):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', os.environ['SPOTIFY_API_KEY'])
+            STdevice.play_media(
+                Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == SURPRISED):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', os.environ['SPOTIFY_API_KEY'])
+            STdevice.play_media(
+                Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == BACK):
             STdevice.previous_track()
         elif (input_val == NEXT):
@@ -77,12 +83,10 @@ def button_response(input_val):
         elif (input_val == PAUSE):
             STdevice.pause()
         else:
-            return json.dumps({"status":"404", "message":"Desired action could not be found"})
-        return json.dumps({"status":"200", "message":"Desired action recieved"})
+            return json.dumps({"status": "404", "message": "Desired action could not be found"})
+        return json.dumps({"status": "200", "message": "Desired action recieved"})
     except:
-        return json.dumps({"status":"400", "message":"The desired action could not be done (operation error)"})
-
-
+        return json.dumps({"status": "400", "message": "The desired action could not be done (operation error)"})
 
 
 if __name__ == '__main__':
@@ -94,6 +98,6 @@ if __name__ == '__main__':
     STdevice = soundtouch_device(os.environ['BOSE_IP'])
     STdevice.power_on()
     status = STdevice.status()
-    
+
     # app.run(debug=True)
     app.run()
