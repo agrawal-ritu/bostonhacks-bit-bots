@@ -1,8 +1,8 @@
 import React from 'react';
 import './Home.css';
 import Button from 'react-bootstrap/Button';
-import Webcam from "react-webcam"; 
-import {Route, Switch, BrowserRouter, Link } from 'react-router-dom';
+import Webcam from "react-webcam";
+import { Route, Switch, BrowserRouter, Link } from 'react-router-dom';
 import { string } from 'prop-types';
 
 const videoConstraints = {
@@ -31,9 +31,9 @@ var button_style = {
   borderRadius: "1vw",
   backgroundColor: "#2f416d",
   borderColor: "#FFFFFF",
-  height:"8vh",
-  width:"20vh",
-  color:"white",
+  height: "8vh",
+  width: "20vh",
+  color: "white",
   zIndex: "1"
 };
 
@@ -41,22 +41,42 @@ var message = 'N/A'
 
 export default class Home extends React.Component {
   constructor(props) {
-      super(props);
-      this.startMusic = this.startMusic.bind(this);
-    }
+    super(props);
+    this.analyzeMusic = this.analyzeMusic.bind(this);
+  }
 
   setRef = webcam => {
-      this.webcam = webcam;
-    };
-	
-	startMusic = () => {
+    this.webcam = webcam;
+  };
+
+  playMusic = () => {
+    fetch('http://localhost:5000/play', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+  };
+
+  pauseMusic = () => {
+    fetch('http://localhost:5000/pause', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+  };
+
+  analyzeMusic = () => {
     document.body.style.background = GRADIENT_COLORS[Math.floor(Math.random() * GRADIENT_COLORS.length)];
-    document.body.style.transition =  "background 5.5s ease-out";
+    document.body.style.transition = "background 5.5s ease-out";
     // put posts heres
     const imageSrc = this.webcam.getScreenshot();
     var imagestr = imageSrc.replace("data:image/jpeg;base64,", "");
     // fetch post
-    const response = fetch('http://localhost:5000', {
+    const response = fetch('http://localhost:5000/picture', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -66,23 +86,30 @@ export default class Home extends React.Component {
         image: imagestr,
       })
     }).then((response) => response.json())
-    .then((response) => {
-      message = response['message']
-      console.log(message)
-      this.forceUpdate();
-    });
+      .then((response) => {
+        message = response['message']
+        console.log(message)
+        this.forceUpdate();
+      });
   };
-	
-    render() {
-      return (
-		        <div style={{ display: "flex", flexDirection:'column',justifyContent: "center"}}>
-                <Webcam audio={false} screenshotFormat="image/jpeg" width='70%' videoConstraints={videoConstraints} ref={this.setRef} style={{alignSelf:"center"}}/>
-                <div style={{justifyContent: "center", textAlign:"center"}}>Status: {message}</div>
-                <Button style={button_style} onClick={this.startMusic}>
-                  Track Mood
+
+  render() {
+    return (
+      <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
+        <Webcam audio={false} screenshotFormat="image/jpeg" width='60%' videoConstraints={videoConstraints} ref={this.setRef} style={{ alignSelf: "center" }} />
+        <div style={{ justifyContent: "center", textAlign: "center", fontWeight:"bolder", fontSize:"large"}}>Status: {message}</div>
+        <Button style={button_style} onClick={this.analyzeMusic}>
+          Track Mood
                 </Button>
-            </div>
-      );
-    }
+
+        <Button style={button_style} onClick={this.playMusic}>
+          Play
+                </Button>
+
+        <Button style={button_style} onClick={this.pauseMusic}>
+          Pause
+                </Button>
+      </div>
+    );
   }
-  
+}
