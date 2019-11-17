@@ -27,40 +27,48 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 @cross_origin()
 def hello():
+    
+    print('Decoding base64 string and storing it to local file')
     encoded_string = json.loads(request.data.decode('utf-8'))['image']
-    client = vision.ImageAnnotatorClient()
-
     imgdata = base64.b64decode(encoded_string)
     filename = 'converted_image.jpg'
     with open(filename, 'wb') as picture:
         picture.write(imgdata)
 
+    print('Reading local file')
     client = vision.ImageAnnotatorClient()
-
     with io.open(filename, 'rb') as image_file:
         content = image_file.read()
-
+    
+    print('Calling Vision API')
     image = vision.types.Image(content=content)
-
     response = client.face_detection(image=image)
     faces = response.face_annotations
 
     likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY',
                        'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
-    print(faces)
+    
     face = faces[0]
+    print('Result:')
+    print("Joy: " + likelihood_name[face.joy_likelihood])
+    print("Sorrow: " + likelihood_name[face.sorrow_likelihood])
+    print("Surprised: " + likelihood_name[face.surprise_likelihood])
+    print("Anger: " + likelihood_name[face.anger_likelihood])
 
     vals = [face.joy_likelihood, face.sorrow_likelihood,
             face.surprise_likelihood, face.anger_likelihood]
     pairs = [[vals[0], HAPPY], [vals[1], SAD],
              [vals[2], SURPRISED], [vals[3], MAD]]
 
-    command = max(pairs)[1]
-    if(max(pairs)[0] < 3):
-        command = PLAY
-    button_response(command)
-    return "Success!!"
-
+    strongest_emotion = max(pairs)[1]
+    if not (max(pairs)[0] < 3):
+        print("Chosen emotion: " + strongest_emotion)
+        return "Chosen emotion: " + strongest_emotion
+        button_response(strongest_emotion)
+    else:
+        print("No emotion chosen!")
+        return "No emotion chosen!"
+    
 
 def button_response(input_val):
     try:
@@ -72,7 +80,7 @@ def button_response(input_val):
                 Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == MAD):
             STdevice.play_media(
-                Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', os.environ['SPOTIFY_API_KEY'])
+                Source.SPOTIFY, 'spotify:track:3Q8HNCQq4NU8dd7qBv6m13', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == SURPRISED):
             STdevice.play_media(
                 Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', os.environ['SPOTIFY_API_KEY'])
@@ -98,7 +106,7 @@ if __name__ == '__main__':
     # Commented until device in on network
 
     STdevice = soundtouch_device(os.environ['BOSE_IP'])
-    STdevice.power_on()
+    #STdevice.power_on()
     status = STdevice.status()
 
     # app.run(debug=True)
