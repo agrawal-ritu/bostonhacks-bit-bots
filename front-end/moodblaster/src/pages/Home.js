@@ -3,6 +3,7 @@ import './Home.css';
 import Button from 'react-bootstrap/Button';
 import Webcam from "react-webcam"; 
 import {Route, Switch, BrowserRouter, Link } from 'react-router-dom';
+import { string } from 'prop-types';
 
 const videoConstraints = {
   width: 1280,
@@ -44,27 +45,40 @@ var floater = {
 };
 
 export default class Home extends React.Component {
-    constructor(props) {
+  constructor(props) {
       super(props);
-	  this.startMusic = this.startMusic.bind(this);
+      this.startMusic = this.startMusic.bind(this);
     }
+
+  setRef = webcam => {
+      this.webcam = webcam;
+    };
 	
 	startMusic = () => {
-		// put posts heres
+    // put posts heres
+    const imageSrc = this.webcam.getScreenshot();
+    var imagestr = imageSrc.replace("data:image/jpeg;base64,", "");
+    console.log(imagestr);
+    // fetch post
+    const response = fetch('http://localhost:5000', {
+      method: 'POST',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image: imagestr,
+      })
+    });
+    console.log(response);
 	};
 	
     
     render() {
       return (
 		        <div style={{ display: "flex", justifyContent: "center"}}>
-                <Webcam
-                          audio={false}
-                          height={550}
-                          ref={this.setRef}
-                          screenshotFormat="image/jpeg"
-                          width={550}
-                          videoConstraints={videoConstraints}
-                />
+                <Webcam audio={false} height={550} screenshotFormat="image/jpeg" width={550} videoConstraints={videoConstraints} ref={this.setRef}/>
                 <Button class="button" style={floater} onClick={this.startMusic}>
                   Track Mood
                 </Button>
