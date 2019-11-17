@@ -7,7 +7,7 @@ Submission for the 2019 BostonHacks for the Bit Bots Team
 ## Setup Python Environment
 
 1. Make sure python is installed
-2. `pip install --upgrade libsoundtouch flask google-cloud-vision`
+2. `pip install --upgrade libsoundtouch flask google-cloud-vision flask-cors`
 
 
 ## Setup Environment

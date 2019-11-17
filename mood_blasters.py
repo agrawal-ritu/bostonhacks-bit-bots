@@ -4,6 +4,7 @@ import json
 import io
 import google.cloud
 from flask import Flask, request
+from flask_cors import CORS, cross_origin
 from libsoundtouch import discover_devices
 from libsoundtouch import soundtouch_device
 from libsoundtouch.utils import Source, Type
@@ -24,6 +25,7 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['POST'])
+@cross_origin()
 def hello():
     encoded_string = json.loads(request.data.decode('utf-8'))['image']
     client = vision.ImageAnnotatorClient()
