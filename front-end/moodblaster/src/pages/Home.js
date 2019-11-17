@@ -33,15 +33,15 @@ const GRADIENT_COLORS = [
 
 var floater = {
   bottom: "10vh",
-  "font-weight": "bold",
-  "border-radius": "1vw",
-  "background-color": "#2f416d",
-  "border-color": "#FFFFFF",
+  fontWeight: "bold",
+  borderRadius: "1vw",
+  backgroundColor: "#2f416d",
+  borderColor: "#FFFFFF",
   position: "fixed",
   height:"8vh",
   width:"20vh",
   color:"white" ,
-  "z-index": "1"
+  zIndex: "1"
 };
 
 export default class Home extends React.Component {
@@ -79,7 +79,7 @@ export default class Home extends React.Component {
       return (
 		        <div style={{ display: "flex", justifyContent: "center"}}>
                 <Webcam audio={false} height={550} screenshotFormat="image/jpeg" width={550} videoConstraints={videoConstraints} ref={this.setRef}/>
-                <Button class="button" style={floater} onClick={this.startMusic}>
+                <Button style={floater} onClick={this.startMusic}>
                   Track Mood
                 </Button>
             </div>
