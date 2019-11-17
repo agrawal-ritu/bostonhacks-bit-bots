@@ -41,7 +41,7 @@ def hello():
     faces = response.face_annotations
 
     likelihood_name = ('UNKNOWN', 'VERY_UNLIKELY', 'UNLIKELY', 'POSSIBLE', 'LIKELY', 'VERY_LIKELY')
-    print(type(faces))
+    print(faces)
     # print('Faces:')
     # for face in faces:
     #     print('anger: {}'.format(likelihood_name[face.anger_likelihood]))
@@ -52,20 +52,20 @@ def hello():
     #                 for vertex in face.bounding_poly.vertices])
 
     #     print('face bounds: {}'.format(','.join(vertices)))
-
+    button_response(HAPPY)
     return "Success!"
 
 
 def button_response(input_val):
     try:
         if (input_val == HAPPY):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:60nZcImufyMA1MKQY3dcCH', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:60nZcImufyMA1MKQY3dcCH', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == SAD):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6ls5ulRydoPE7oWGPGBqFA', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == MAD):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:6RRNNciQGZEXnqk8SQ9yv5', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == SURPRISED):
-            STdevice.play_media(Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', '31dlcuwpfbvet7ykhvmsdjytuhou')
+            STdevice.play_media(Source.SPOTIFY, 'spotify:track:2w6zOxgxy8XZDCPcGtuYQY', os.environ['SPOTIFY_API_KEY'])
         elif (input_val == BACK):
             STdevice.previous_track()
         elif (input_val == NEXT):
@@ -89,10 +89,9 @@ if __name__ == '__main__':
 
     # Commented until device in on network
 
-    # STdevice = soundtouch_device('192.168.1.14')
-    # STdevice.power_on()
-    # status = STdevice.status()
-    # button_response(MAD)
+    STdevice = soundtouch_device(os.environ['BOSE_IP'])
+    STdevice.power_on()
+    status = STdevice.status()
     
     # app.run(debug=True)
     app.run()
