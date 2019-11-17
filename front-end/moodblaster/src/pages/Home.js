@@ -6,6 +6,7 @@ import {Route, Switch, BrowserRouter, Link } from 'react-router-dom';
 
 const videoConstraints = {
   width: 1280,
+  "border-radius": "1vw",
   height: 720,
   facingMode: "user"
 };
@@ -56,7 +57,14 @@ export default class Home extends React.Component {
     render() {
       return (
 		        <div style={{ display: "flex", justifyContent: "center"}}>
-                <Webcam/>
+                <Webcam
+                          audio={false}
+                          height={550}
+                          ref={this.setRef}
+                          screenshotFormat="image/jpeg"
+                          width={550}
+                          videoConstraints={videoConstraints}
+                />
                 <Button class="button" style={floater} onClick={this.startMusic}>
                   Track Mood
                 </Button>
