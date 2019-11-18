@@ -96,7 +96,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center" }}>
-        <Webcam audio={false} screenshotFormat="image/jpeg" width='60%' videoConstraints={videoConstraints} ref={this.setRef} style={{ alignSelf: "center" }} />
+        <Webcam audio={false} screenshotFormat="image/jpeg" width='60%' videoConstraints={videoConstraints} ref={this.setRef} style={{ alignSelf: "center", marginTop:"3vh"}} />
         <div style={{ justifyContent: "center", textAlign: "center", fontWeight:"bolder", fontSize:"large"}}>Status: {message}</div>
         <Button style={button_style} onClick={this.analyzeMusic}>
           Track Mood
