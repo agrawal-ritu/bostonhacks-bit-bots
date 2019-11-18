@@ -1,5 +1,12 @@
-# bostonhacks-bit-bots
-Submission for the 2019 BostonHacks for the Bit Bots Team
+# bostonhacks- MoodBlaster
+Submission of the project MindBlaster for the 2019 BostonHacks for the Bit Bots Team
+Team members- 
+1. Ritu Agrawal
+2. Cristian Aldea
+3. Tilak Agarwal
+4. Lina Marie Durrwald
+5. Muhammad Ali
+We won the BostonHacks2019 in the Computational Art category:)
 
 
 # Setup
